@@ -138,7 +138,7 @@ const Register = () => {
     {showErrorPopup && (
       <PopupModal
       title="ERROR!" 
-      contentMessage="the username already exists, try a new username" 
+      contentMessage="the username already exists, please choose a unique username" 
       buttonMessage="Sure"
       onClose={() => setShowErrorPopup(false)} />
     )}

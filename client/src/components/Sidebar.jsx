@@ -4,7 +4,7 @@ import { createContext, useState } from "react"
 export const SidebarContext = createContext();
 
 const Sidebar = ({ children ,user} ) => {
-  const [expanded, setExpanded] = useState(false)
+  const [expanded, setExpanded] = useState(true)
   
   return (
     <aside className="h-screen sticky top-0">

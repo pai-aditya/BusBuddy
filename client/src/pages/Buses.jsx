@@ -16,6 +16,17 @@ const Buses = () => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [busID,setBusID] = useState([]);
   
+  const getColor = (ratio) => {
+    if(ratio==1){
+      return 'bg-gray-600';
+    }else if (ratio >=0.9) {
+      return 'bg-red-700'; 
+    } else if(ratio>=0.6 & ratio<=0.9) {
+      return 'bg-yellow-600'; 
+    }else{
+        return 'bg-green-700';
+    }
+  };
   const FetchBusesData = useCallback(async () => {
     try{
       const options = {
@@ -88,7 +99,10 @@ const Buses = () => {
               Duration
             </th>
             <th className='border border-slate-600 rounded-md max-md:hidden'>
-              Distance
+              Total Seats
+            </th>
+            <th className='border border-slate-600 rounded-md max-md:hidden'>
+              Seats Booked
             </th>
             <th className='border border-slate-600 rounded-md'>Actions</th>
           </tr>
@@ -115,7 +129,10 @@ const Buses = () => {
                 {bus.duration}
               </td>
               <td className='border border-slate-700 rounded-md text-center max-md:hidden bg-blue-900'>
-                {bus.distance}
+                {bus.total_seats}
+              </td>
+              <td className={`border border-slate-700 rounded-md text-center max-md:hidden ${getColor(bus.seatsBooked.length/ bus.total_seats)}`}>
+                {((bus.seatsBooked.length/ bus.total_seats) * 100).toFixed(0)}%
               </td>
               <td className='border border-slate-700 rounded-md text-center '>
                 <div className='flex justify-center gap-x-4'>

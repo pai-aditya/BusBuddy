@@ -1,10 +1,11 @@
 
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { MdOutlineDelete } from 'react-icons/md';
 import { useState,useEffect,useCallback } from 'react';
 import { SERVER_URL } from '../components/Constants';
 import Spinner from '../components/Spinner';
 import PopupModal from '../components/PopupModal';
+import BackButton from '../components/BackButton';
 const SpecificBookings = () => {
     const {id} = useParams();
     const [bookingList,setBookingList] = useState([]);
@@ -62,7 +63,8 @@ const SpecificBookings = () => {
 
   return (
     <div className='p-4 w-full bg-custom-primary-purple text-white'>
-      <div className='flex items-center justify-beteween my-4 mr-4 text-4xl font-bold'>
+    <BackButton />
+      <div className='flex items-center justify-beteween my-4 mr-4 text-4xl font-bold '>
         Bookings
       </div>
     { loading ? (

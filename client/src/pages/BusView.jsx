@@ -53,6 +53,10 @@ const BusView = ({user}) => {
 
     const handleSubmit = async (e) => {
         setLoading(true);
+        if(!user){
+          navigateTo("/login")
+          return;
+        }
         e.preventDefault();
         const cost = selectedSeats.length * bus.fare;
         try {
@@ -191,7 +195,7 @@ const BusView = ({user}) => {
                 <button
                     onClick={handleSubmit}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 block w-full disabled:bg-gray-500 disabled:text-gray-300"
-                    disabled={!user || selectedSeats.length==0}>
+                    disabled={selectedSeats.length==0}>
                     Book Seats
                 </button>
 

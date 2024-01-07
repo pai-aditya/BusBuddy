@@ -102,9 +102,11 @@ const FetchUserData = async () => {
           <div>
             <hr className="my-3" />
             <SidebarItem icon={<User        size={20} />} text="Your Profile"         link="/profile" />
+            <SidebarItem icon={<BookText    size={20} />} text="My Bookings"         link="/mybookings" />
+            <hr className="my-3" />
+            <h1 className='text-white text-center font-bold'>Admin's Actions</h1>
             <SidebarItem icon={<BusFront        size={20} />} text="Buses"         link="/buses" />
             <SidebarItem icon={<UsersIcon        size={20} />} text="Users"         link="/users" />
-            <SidebarItem icon={<BookText    size={20} />} text="My Bookings"         link="/mybookings" />
             <hr className="my-3" />
             <SidebarItem icon={<LogOut      size={20} />} text="Logout"               link="/logout"/>
           </div>

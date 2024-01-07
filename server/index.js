@@ -198,7 +198,7 @@ app.get("/auth/check", (req,res) => {
 
 
 /**
- * add a new bus in the database (admins only)
+ * adds/updates a new bus in the database (admins only)
  */
 app.post("/addBus", async (req, res) => {
   try {
@@ -480,33 +480,31 @@ app.post("/bus/removeOccupancy/:id", async (req, res) => {
 app.delete("/booking/delete/:bookingID", async (req, res) => {
   const bookingId = req.params.bookingID;
 
-  User.findById(req.user._id)
-      .then(function (foundUser) {
-          if (foundUser) {
-              const indexToRemove = foundUser.bookings.findIndex(booking => booking._id == bookingId);
-              if (indexToRemove !== -1) {
-                  foundUser.bookings.splice(indexToRemove, 1);
-                  
-                  foundUser.save()
-                      .then(function (updatedUser) {
-                          res.status(200).json({ success: true, message: "Booking deleted", user: updatedUser });
-                      })
-                      .catch(function (err) {
-                          console.log("Error saving user after deleting booking:", err.message);
-                          res.status(500).json({ success: false, message: "Failed to delete booking" });
-                      });
-              } else {
-                  res.status(404).json({ success: false, message: "Booking not found in user's bookings" });
-              }
-          } else {
-              res.status(404).json({ success: false, message: "User not found" });
-          }
-      })
-      .catch(function (err) {
-          console.log("Error finding user:", err.message);
-          res.status(500).json({ success: false, message: "Failed to delete booking" });
-      });
+  try {
+    const users = await User.find();
+    let updatedUsers = [];
+
+    for (const foundUser of users) {
+      const indexToRemove = foundUser.bookings.findIndex(booking => booking._id == bookingId);
+      if (indexToRemove !== -1) {
+        foundUser.bookings.splice(indexToRemove, 1);
+        updatedUsers.push(foundUser); // Collecting users to update
+      }
+    }
+
+    if (updatedUsers.length > 0) {
+      const promises = updatedUsers.map(user => user.save()); // Saving all updated users
+      await Promise.all(promises);
+      res.status(200).json({ success: true, message: "Booking deleted" });
+    } else {
+      res.status(404).json({ success: false, message: "Booking not found" });
+    }
+  } catch (err) {
+    console.log("Error deleting booking:", err.message);
+    res.status(500).json({ success: false, message: "Failed to delete booking" });
+  }
 });
+
 
 /**
  * When the bus is deleted by the admin, 
